@@ -1,22 +1,31 @@
 ### --- CORE --- ###
 
+VERSION=v1.2
+IMAGE_NAME=kube-sandbox
+DOCKER_USERNAME=joeljjablonski
+
 build:
-  sudo docker build -t joeljjablonski/kube-sandbox:v1.1 .
+	sudo docker build -t ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION} .
   
 run:
-  sudo docker run --rm --privileged -it \
+	sudo docker run --rm --privileged -it \
 	-v ${PWD}:/code \
 	-w /code \
 	--network host \
-	joeljjablonski/kube-sandbox:v1.1
+	${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION} 
 
+login:
+	sudo docker login -u ${DOCKER_USERNAME}
+
+push:
+	sudo docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
 
 ### --- EXAMPLES --- ###
 
 # inside docker container
 load-app:
-  docker build -t localhost:5000/app:latest -f ./app.dockerfile .
+	docker build -t localhost:5000/app:latest -f ./app.dockerfile .
 	docker push localhost:5000/app:latest
 	kind load docker-image localhost:5000/app:latest
   

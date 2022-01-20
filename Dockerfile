@@ -4,17 +4,26 @@ RUN mkdir /setup
 
 RUN apk add --no-cache iptables bash make curl nano openssl
 
+# install kubectl
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.3/bin/linux/amd64/kubectl && \
     chmod +x ./kubectl && \
     mv ./kubectl /usr/local/bin/kubectl
 
+# install kind
 RUN curl -Lo ./kind https://github.com/kubernetes-sigs/kind/releases/download/v0.11.1/kind-linux-amd64 && \
     chmod +x ./kind && \
     mv ./kind /usr/local/bin/kind
 
+# install helm
 RUN curl -sSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
-COPY kube-sandbox.dockerfile /setup
+# install velero
+RUN curl -L -o /tmp/velero.tar.gz https://github.com/vmware-tanzu/velero/releases/download/v1.7.1/velero-v1.7.1-linux-amd64.tar.gz && \
+    tar -C /tmp -xvf /tmp/velero.tar.gz && \
+    mv /tmp/velero-v1.7.1-linux-amd64/velero /usr/local/bin/velero && \
+    chmod +x /usr/local/bin/velero
+
+COPY . /setup
 
 RUN echo $'kind: Cluster\napiVersion: kind.x-k8s.io/v1alpha4\ncontainerdConfigPatches:\n  - |-\n\
     [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:5000"]\n\
