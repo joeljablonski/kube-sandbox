@@ -1,6 +1,6 @@
 ### --- CORE --- ###
 
-VERSION=v1.2
+VERSION=v1.3
 IMAGE_NAME=kube-sandbox
 DOCKER_USERNAME=joeljjablonski
 

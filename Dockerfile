@@ -2,7 +2,7 @@ FROM docker:dind
 
 RUN mkdir /setup
 
-RUN apk add --no-cache iptables bash make curl nano openssl
+RUN apk add --no-cache iptables bash make curl nano openssl git
 
 # install kubectl
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.3/bin/linux/amd64/kubectl && \
@@ -25,10 +25,10 @@ RUN curl -L -o /tmp/velero.tar.gz https://github.com/vmware-tanzu/velero/release
 
 COPY . /setup
 
-RUN echo $'kind: Cluster\napiVersion: kind.x-k8s.io/v1alpha4\ncontainerdConfigPatches:\n  - |-\n\
-    [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:5000"]\n\
-    endpoint = ["http://kind-registry:5000"]'\
-    >> /setup/kindConfig.yaml
+# RUN echo $'kind: Cluster\napiVersion: kind.x-k8s.io/v1alpha4\ncontainerdConfigPatches:\n  - |-\n\
+#     [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:5000"]\n\
+#     endpoint = ["http://kind-registry:5000"]'\
+#     >> /setup/kindConfig.yaml
 
 RUN echo $'apiVersion: v1\nkind: ConfigMap\nmetadata:\n\
     name: local-registry-hosting\n\
