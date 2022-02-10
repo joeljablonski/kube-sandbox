@@ -1,4 +1,4 @@
-FROM docker:dind
+FROM docker:20.10.12-dind-alpine3.15
 
 RUN mkdir /setup
 
@@ -23,7 +23,14 @@ RUN curl -L -o /tmp/velero.tar.gz https://github.com/vmware-tanzu/velero/release
     mv /tmp/velero-v1.7.1-linux-amd64/velero /usr/local/bin/velero && \
     chmod +x /usr/local/bin/velero
 
+# install terraform
+RUN curl -o /tmp/terraform.zip -LO https://releases.hashicorp.com/terraform/1.1.5/terraform_1.1.5_linux_amd64.zip && \
+    unzip /tmp/terraform.zip && \
+    chmod +x terraform && mv terraform /usr/local/bin/
+
 COPY . /setup
+
+
 
 # RUN echo $'kind: Cluster\napiVersion: kind.x-k8s.io/v1alpha4\ncontainerdConfigPatches:\n  - |-\n\
 #     [plugins."io.containerd.grpc.v1.cri".registry.mirrors."localhost:5000"]\n\

@@ -1,6 +1,6 @@
 ### --- CORE --- ###
 
-VERSION=v1.4
+VERSION=v1.5
 IMAGE_NAME=kube-sandbox
 DOCKER_USERNAME=joeljjablonski
 
@@ -20,6 +20,10 @@ login:
 push:
 	sudo docker push ${DOCKER_USERNAME}/${IMAGE_NAME}:${VERSION}
 
+commit:
+	git add .
+	git commit -m '${m}'
+	git push
 
 ### --- EXAMPLES --- ###
 
