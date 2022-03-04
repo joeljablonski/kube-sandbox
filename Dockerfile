@@ -2,7 +2,7 @@ FROM docker:20.10.12-dind-alpine3.15
 
 RUN mkdir /setup
 
-RUN apk add --no-cache iptables bash make curl nano openssl git
+RUN apk add --no-cache iptables bash make curl nano openssl git jq
 
 # install kubectl
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.21.3/bin/linux/amd64/kubectl && \
